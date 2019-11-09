@@ -1,0 +1,16 @@
+name = "MusicVisualizations"
+uuid = "8e838768-4b4f-4130-9d6d-43f7b35ca0d6"
+repo = "https://github.com/JuliaMusic/MusicVisualizations.jl.git"
+version = "0.1.0"
+
+[deps]
+DefaultApplication = "3f0dd361-4fe0-5fc6-8523-80b14ec94d85"
+MusicManipulations = "274955c0-c284-5bf7-b122-5ecd51c559de"
+PyPlot = "d330b81b-6aea-500a-939a-2ce795aea3ee"
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[compat]
+julia = "1.1"
+MusicManipulations = "1.0"
+DefaultApplication = "0.1"
+PyPlot = "2.8.1"
