@@ -11,6 +11,8 @@ julia:
 before_script:
   - git config --global user.name "GitUser"
   - git config --global user.email "git@us.er"
+  - julia -e 'using Pkg; ENV["PYTHON"]=""; Pkg.add("PyCall"); Pkg.build(); Pkg.add("PyPlot")'
+
 
 matrix:
   allow_failures:
