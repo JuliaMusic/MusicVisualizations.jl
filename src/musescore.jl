@@ -1,6 +1,6 @@
 export musescore
 
-using MIDI, DefaultApplication
+using MusicManipulations, DefaultApplication
 
 const MUSESCORE = @static Sys.iswindows() ? "MuseScore3" : "mscore"
 # const MUSESCORE_EXISTS = [false]
@@ -32,12 +32,11 @@ output to `file`. By default it will also display the created `file`,
 which can be either a `.pdf` or a `.png`. The function must first create a MIDI file
 (uses the same name as `file`). You can choose to delete it afterwards (`rmmidi`).
 
-MuseScore must be accessible from the command line. In Windows try `MuseScore -v` to
-ensure that, otherwise `mscore -v`.
+MuseScore must be accessible from the command line.
+In Windows try `MuseScore -v` to ensure that, otherwise `mscore -v`.
 
 If given a `.png` the actual file name will end with `-1`, `-2` etc.
-for each page of the score. Notice that MuseScore must be accessible from the
-command line for this function to work.
+for each page of the score.
 """
 function musescore(file, notes; display = true, rmmidi = false)
 
