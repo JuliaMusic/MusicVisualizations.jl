@@ -1,6 +1,8 @@
 module MusicVisualizations
 
-using MusicManipulations, PyPlot, DefaultApplication
+using PyPlot, DefaultApplication
+using Reexport
+@reexport using MusicManipulations
 
 include("musescore.jl")
 include("noteplotter.jl")

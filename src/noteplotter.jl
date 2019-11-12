@@ -1,3 +1,4 @@
+using PyPlot
 export noteplotter
 maxnotevel(::Note) = 127
 maxnotevel(::MoreVelNote) = 157
