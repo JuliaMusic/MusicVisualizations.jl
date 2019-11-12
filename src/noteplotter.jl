@@ -3,10 +3,11 @@ export noteplotter
 maxnotevel(::Note) = 127
 maxnotevel(::MoreVelNote) = 157
 
-Rectangle = PyPlot.matplotlib.patches.Rectangle
 function plotpianonote!(ax, note, cmap)
-    r = Rectangle((note.position, note.pitch - 0.5), note.duration, 1,
-    color = cmap(note.velocity/maxnotevel(note)))
+    r = PyPlot.matplotlib.patches.Rectangle(
+        (note.position, note.pitch - 0.5), note.duration, 1,
+        color = cmap(note.velocity/maxnotevel(note))
+    )
     ax.add_artist(r)
     return note.pitch
 end
