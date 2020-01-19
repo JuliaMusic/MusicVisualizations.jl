@@ -26,40 +26,40 @@ function test_musescore()
 end
 
 """
-    musescore(file, notes | midi; display = true, rmmidi = true)
-Use the open source software "MuseScore" to create a score and save the
-output to `file`. MuseScore must be accessible from the command line
-for this to work (add the path to `MuseScore.exe` to your PATH environment
-variable).
-
-By default it will also display the created `file`,
-which can be either a `.pdf` or a `.png`.
-The function must first create a MIDI file (uses the same name as `file`).
-You can choose to keep it with `rmmidi = false`.
-
-If given a `.png` the actual file name will end with `-1`, `-2` etc.
+    musescore(file, notes | midi; keywords...)
+Use the open source software "MuseScore" to create a score and save the given
+`notes` (or an entire `midi` file) to `file`, which can be either a `.pdf` or
+a `.png`.If given a `.png` the actual file name will end with `-1`, `-2` etc.
 for each page of the score.
+
+MuseScore must be accessible from the command line
+for this to work (add the path to `MuseScore.exe` to your PATH environment
+variable (ask Google)).
+
+The keyword `display = true` will also display the created `file`.
+Keyword `rmmidi = true` deletes the MIDI file that has to be created inbetween
+score convertion (use `false` to keep it).
+MuseScore is run by default with commands `c = \`-n -T 10\``, but you can
+change the keyword `c` to be whatever you want.
 """
-function musescore(file, notes; display = true, rmmidi = true)
+function musescore(file, notes;
+	display = true, rmmidi = true, c = `-n -T 20`
+	)
 
-    file[end-3:end] ∈ (".png", ".pdf") || error("file must be .pdf or .png.")
-
+    lowercase(file[end-3:end]) ∈ (".png", ".pdf") || error("file must be .pdf or .png.")
     MUSESCORE_EXISTS[1] || test_musescore()
 
     midiname = file[1:end-4]*".mid"
 	midi = writeMIDIFile(midiname, notes)
 
     if file[end-3:end] == ".png"
-        cmd = `$MUSESCORE -n -T 10 -o $(file) $(midiname)`
+        cmd = `$MUSESCORE $(c) -o $(file) $(midiname)`
         muspng = file[1:end-4]*"-1.png"
     else
-        cmd = `$MUSESCORE -n -o $(file) $(midiname)`
+        cmd = `$MUSESCORE $(c) -o $(file) $(midiname)`
         muspng = file
     end
-	try
-		run(cmd)
-	catch e
-	end
+	run(cmd)
     rmmidi && rm(midiname)
     display && DefaultApplication.open(muspng)
 end
