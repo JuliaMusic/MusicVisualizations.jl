@@ -69,7 +69,9 @@ end
 	musescore_drumkey
 
 A dictionary that given the drum instrument as a string it returns the
-MIDI pitch that MuseScore uses.
+MIDI pitch that MuseScore uses. See
+https://musescore.org/sites/musescore.org/files/General%20MIDI%20Standard%20Percussion%20Set%20Key%20Map.pdf
+for a more complete list.
 
 Notice that to import a MIDI file into MuseScore and the drumset to be the selected
 instrument, you should write the MIDI notes to channel `9`.
