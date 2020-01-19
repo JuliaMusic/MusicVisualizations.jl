@@ -1,7 +1,7 @@
 name = "MusicVisualizations"
 uuid = "8e838768-4b4f-4130-9d6d-43f7b35ca0d6"
 repo = "https://github.com/JuliaMusic/MusicVisualizations.jl.git"
-version = "0.2.1"
+version = "0.2.2"
 
 [deps]
 DefaultApplication = "3f0dd361-4fe0-5fc6-8523-80b14ec94d85"

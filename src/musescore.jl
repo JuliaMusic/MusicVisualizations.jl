@@ -3,46 +3,48 @@ export musescore, musescore_drumkey
 using MusicManipulations, DefaultApplication
 
 const MUSESCORE = @static Sys.iswindows() ? "MuseScore3" : "mscore"
-# const MUSESCORE_EXISTS = [false]
-#
-# function test_musescore()
-#     if !MUSESCORE_EXISTS[1]
-#         r = try
-#             r = run(`$(MUSESCORE) -v`)
-#         catch
-#             false
-#         end
-#         if r == false || ((typeof(r) == Base.Process) && r.exitcode != 0)
-#             throw(SystemError(
-#             """
-#             The command `$(MUSESCORE) -v` did not run, which probably means that
-#             MuseScore is not accessible from the command line.
-# 			Please first install MuseScore
-#             on your computer and then add it to your PATH."""
-#             ))
-#         end
-#     end
-#     global MUSESCORE_EXISTS[1] = true
-# end
+const MUSESCORE_EXISTS = [false]
+
+function test_musescore()
+    if !MUSESCORE_EXISTS[1]
+        r = try
+            r = run(`$(MUSESCORE) -v`)
+        catch
+            false
+        end
+        if r == false || ((typeof(r) == Base.Process) && r.exitcode != 0)
+            throw(SystemError(
+            """
+            The command `$(MUSESCORE) -v` did not run, which probably means that
+            MuseScore is not accessible from the command line.
+			Please first install MuseScore
+            on your computer and then add it to your PATH."""
+            ))
+        end
+    end
+    global MUSESCORE_EXISTS[1] = true
+end
 
 """
-    musescore(file, notes | midi; display = true, rmmidi = false)
+    musescore(file, notes | midi; display = true, rmmidi = true)
 Use the open source software "MuseScore" to create a score and save the
-output to `file`. By default it will also display the created `file`,
-which can be either a `.pdf` or a `.png`. The function must first create a MIDI file
-(uses the same name as `file`). You can choose to delete it afterwards (`rmmidi`).
+output to `file`. MuseScore must be accessible from the command line
+for this to work (add the path to `MuseScore.exe` to your PATH environment
+variable).
 
-MuseScore must be accessible from the command line.
-In Windows try `MuseScore -v` to ensure that, otherwise `mscore -v`.
+By default it will also display the created `file`,
+which can be either a `.pdf` or a `.png`.
+The function must first create a MIDI file (uses the same name as `file`).
+You can choose to keep it with `rmmidi = false`.
 
 If given a `.png` the actual file name will end with `-1`, `-2` etc.
 for each page of the score.
 """
-function musescore(file, notes; display = true, rmmidi = false)
+function musescore(file, notes; display = true, rmmidi = true)
 
     file[end-3:end] ∈ (".png", ".pdf") || error("file must be .pdf or .png.")
 
-    # MUSESCORE_EXISTS[1] || test_musescore()
+    MUSESCORE_EXISTS[1] || test_musescore()
 
     midiname = file[1:end-4]*".mid"
 	midi = writeMIDIFile(midiname, notes)
@@ -54,7 +56,10 @@ function musescore(file, notes; display = true, rmmidi = false)
         cmd = `$MUSESCORE -n -o $(file) $(midiname)`
         muspng = file
     end
-	run(cmd)
+	try
+		run(cmd)
+	catch e
+	end
     rmmidi && rm(midiname)
     display && DefaultApplication.open(muspng)
 end
