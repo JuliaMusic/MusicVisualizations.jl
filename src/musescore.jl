@@ -39,11 +39,13 @@ variable (ask Google)).
 The keyword `display = true` will also display the created `file`.
 Keyword `rmmidi = true` deletes the MIDI file that has to be created inbetween
 score convertion (use `false` to keep it).
-MuseScore is run by default with commands `c = \`-n -T 10\``, but you can
-change the keyword `c` to be whatever you want.
+MuseScore is run by default with commands `c = \`-n -T 10 -r 1200\``, but you can
+change the keyword `c` to be whatever you want, see the
+[command line options](https://musescore.org/en/handbook/3/command-line-options)
+of MuseScore for details.
 """
 function musescore(file, notes;
-	display = true, rmmidi = true, c = `-n -T 20`
+	display = true, rmmidi = true, c = `-n -T 20 -r 1200`
 	)
 
     lowercase(file[end-3:end]) ∈ (".png", ".pdf") || error("file must be .pdf or .png.")
