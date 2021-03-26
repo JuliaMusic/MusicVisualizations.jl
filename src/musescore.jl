@@ -2,7 +2,7 @@ export musescore, musescore_drumkey
 
 using MusicManipulations, DefaultApplication
 
-const MUSESCORE = @static Sys.iswindows() ? "MuseScore3" : "mscore"
+const MUSESCORE = @static if Sys.iswindows() "MuseScore3" elseif Sys.islinux() "musescore3" else "mscore3" end
 const MUSESCORE_EXISTS = [false]
 
 function test_musescore()
