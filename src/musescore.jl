@@ -1,8 +1,8 @@
 export musescore, musescore_drumkey
 
-using MusicManipulations, DefaultApplication
+using MusicManipulations, DefaultApplication, FileIO
 
-const MUSESCORE = @static if Sys.iswindows() "MuseScore3" elseif Sys.islinux() "musescore3" else "mscore3" end
+const MUSESCORE = @static if Sys.iswindows() "MuseScore3" elseif Sys.islinux() "musescore" else "mscore" end
 const MUSESCORE_EXISTS = [false]
 
 function test_musescore()
@@ -52,7 +52,7 @@ function musescore(file, notes;
     MUSESCORE_EXISTS[1] || test_musescore()
 
     midiname = file[1:end-4]*".mid"
-	midi = writeMIDIFile(midiname, notes)
+    midi = save(midiname, notes)
 
     if file[end-3:end] == ".png"
         cmd = `$MUSESCORE $(c) -o $(file) $(midiname)`
