@@ -41,7 +41,7 @@ Keyword `rmmidi = true` deletes the MIDI file that has to be created inbetween
 score convertion (use `false` to keep it).
 MuseScore is run by default with commands `-T 10 -r 1200`, but you can
 change the keyword `c` to be whatever command (enclosed in backticks) you want, see the
-[command line options](https://musescore.org/en/handbook/3/command-line-options)
+[command line options](https://musescore.org/en/handbook/4/command-line-options)
 of MuseScore for details.
 """
 function musescore(file, notes;
